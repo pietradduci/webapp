@@ -11,6 +11,21 @@ function setImg(){
 
 var img;
 
+$("#FilUploader").change(function () {
+    var fileExtension = ['jpeg', 'jpg', 'png', 'gif', 'bmp'];
+    if ($.inArray($(this).val().split('.').pop().toLowerCase(), fileExtension) == -1) {
+        alert("Only formats are allowed : "+fileExtension.join(', '));
+    }
+});
+
+function checkCsv(name){
+    if (name == "csv") {
+        return 1;
+    }
+    else{
+        return 0;
+    }
+}
 
 function myAjax (nomefile) {
     var testo = nomefile;

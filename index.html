@@ -15,15 +15,16 @@
     <link rel="stylesheet" href="css/bootstrap.min.css"/>
     <link href="css/glyphicons.css" rel="stylesheet" />
 
+    <!--JQuery UI-->
+    <script src="js/jquery-1.12.4.js"></script>
+    <script src="js/jquery-ui.js"></script>
+
 
     <!-- Bootstrap Core JavaScript -->
     <script src="js/bootstrap.min.js"></script>
 
     <script src="js/functions.js"></script>
 
-    <!--JQuery UI-->
-    <script src="js/jquery-1.12.4.js"></script>
-    <script src="js/jquery-ui.js"></script>
 
     <!--Liste senza pallini-->
     <style>
@@ -36,12 +37,28 @@
     <script>
         //Scrivo il nome del file selezionato
         $(document).on('change', '.inputfile', function() {
-            var dio = ($(this).val().split('\\').pop());
-            if($(this).closest('.gruppoinput').children('p').length){   //Se ho già scelto una volta il file ma voglio sostituirlo
+            var dio = ($(this).val().split('\\').pop());    //Nome del file
+            var estensione = ($(this).val().split('.').pop().toLowerCase());    //Estensione del file
+
+            //Se ho già scelto una volta il file ma voglio sostituirlo AND l'estensione è quella giusta
+            if(($(this).closest('.gruppoinput').children('p').length) && (checkCsv(estensione) == 1)){
                 $(this).closest('.gruppoinput').children('p').remove(); //Sostituisco il nome del file
+
             }
-            $(this).closest('.gruppoinput').append('<p>'+dio+'</p>');
-            $(this).parent().next().prop('disabled', false);
+            else{
+                alert("Richiesto file di tipo csv");
+            }
+
+            //Se scelgo il file per la prima volta allora controllo l'estensione, se è ok appendo il nome del file
+            var estensione = ($(this).val().split('.').pop().toLowerCase());
+            if (checkCsv(estensione) == 1){
+                $(this).closest('.gruppoinput').append('<p>'+dio+'</p>');
+                $(this).parent().next().prop('disabled', false);
+            }
+            else{
+                alert("Richiesto file di tipo csv");
+            }
+
         });
         //Rimuovo gli elementi su cui clicco nella colonna di destra
         $(document).on('click', '#remove_elem', function() {
@@ -137,6 +154,8 @@
 
 
 
+
+
             <div class="gruppoinput">
                 <label class="btn btn-default btn-info" style="margin-top: 8px">
                     Browse <input type="file" style="display: none;" class="inputfile"/>
@@ -144,6 +163,7 @@
                 <button type="button" class="btn btn-outline-danger" disabled="disabled">Ok</button>
                 <span id="remove_field" class="glyphicon glyphicon-remove" aria-hidden="true" style="vertical-align: middle"></span>
             </div>
+
 
 
         </div>
