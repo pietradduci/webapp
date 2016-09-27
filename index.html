@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, shrink-to-fit=no, initial-scale=1">
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+
+    <title>Multimedia e chitestramuort</title>
+
+    <link rel="stylesheet" href="css/bootstrap.min.css"/>
+    <link href="css/glyphicons.css" rel="stylesheet" />
+
+
+    <!-- Bootstrap Core JavaScript -->
+    <script src="js/bootstrap.min.js"></script>
+
+    <script src="js/functions.js"></script>
+
+    <!--JQuery UI-->
+    <script src="js/jquery-1.12.4.js"></script>
+    <script src="js/jquery-ui.js"></script>
+
+    <!--Liste senza pallini-->
+    <style>
+        ul
+        {
+            list-style-type: none;
+        }
+    </style>
+
+    <script>
+        //Scrivo il nome del file selezionato
+        $(document).on('change', '.inputfile', function() {
+            var dio = ($(this).val().split('\\').pop());
+            if($(this).closest('.gruppoinput').children('p').length){   //Se ho già scelto una volta il file ma voglio sostituirlo
+                $(this).closest('.gruppoinput').children('p').remove(); //Sostituisco il nome del file
+            }
+            $(this).closest('.gruppoinput').append('<p>'+dio+'</p>');
+            $(this).parent().next().prop('disabled', false);
+        });
+        //Rimuovo gli elementi su cui clicco nella colonna di destra
+        $(document).on('click', '#remove_elem', function() {
+            $('div .col-md-8').effect("highlight", {}, 1000);
+            $('div .col-md-8').css('cursor', 'grabbing');
+            $('div .col-md-8').click(function(e){
+                $(e.target).remove();
+                $('div .col-md-8').off('click');
+                $('div .col-md-8').css('cursor', 'default');
+            });
+        });
+
+        //Eseguo lo script python sul file selezionato
+        $(document).on('click', '.btn-outline-danger', function() {
+            var par = $(this).parent();
+
+            var testo = par.children().last().text();
+            alert(testo);
+            myAjax(testo);
+        });
+
+        //Scroll sugli elementi nella tabella di destra
+        $( function() {
+            $( "#sortable" ).sortable({
+                placeholder: "ui-state-highlight"
+            });
+            $( "#sortable" ).disableSelection();
+        } );
+    </script>
+
+
+</head>
+
+<body>
+
+<!-- Fixed navbar -->
+<div class="pos-f-t">
+    <div class="collapse" id="navbar-header">
+        <div class="container bg-inverse p-a-1">
+            <h3>Collapsed content</h3>
+            <p>Toggleable via the navbar brand.</p>
+        </div>
+    </div>
+    <nav class="navbar navbar-light navbar-static-top bg-faded">
+        <div class="container">
+            <button class="navbar-toggler hidden-sm-up" type="button" data-toggle="collapse" data-target="#exCollapsingNavbar2">
+                &#9776;
+            </button>
+            <div class="collapse navbar-toggleable-xs" id="exCollapsingNavbar2">
+                <a class="navbar-brand" href="#">Sticky footer</a>
+                <ul class="nav navbar-nav">
+                    <li class="nav-item active">
+                        <a class="nav-link" href="#">Nav item <span class="sr-only">(current)</span></a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#">Another nav item</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#">More nav</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#">Last link</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+</div>
+
+<!-- Begin page content -->
+<div class="container" style="padding-top:60px">
+    <div class="m-t-1">
+        <h1>Sticky footer with fixed navbar</h1>
+    </div>
+    <p class="lead">Pin a fixed-height footer to the bottom of the viewport in desktop browsers with this custom HTML and CSS. A fixed navbar has been added with <code>padding-top: 60px;</code> on the <code>body &gt; .container</code>.</p>
+    <p>Back to <a href="../sticky-footer">the default sticky footer</a> minus the navbar.</p>
+
+
+
+    <div class="row" style="padding-top: 25px;">
+        <div class="col-md-4" id="strumenti">
+
+            <form class="form-inline" style="margin-bottom: 10px;">
+                <div class="form-group">
+                    <input type="text" class="form-control" id="title" placeholder="Titolo o testo">
+                </div>
+                <button type="button" class="btn btn-primary" id="inserisciTitolo" onclick="setTitle(title.value)">Ok</button>
+            </form>
+            <div class="btn-group" role="group" aria-label="Basic example">
+                <button type="button" class="btn btn-primary" id="addelem" onclick="addElements()">Aggiungi</button>
+                <button type="button" class="btn btn-danger" id="remove_elem">Rimuovi</button>
+            </div>
+
+
+
+            <div class="gruppoinput">
+                <label class="btn btn-default btn-info" style="margin-top: 8px">
+                    Browse <input type="file" style="display: none;" class="inputfile"/>
+                </label>
+                <button type="button" class="btn btn-outline-danger" disabled="disabled">Ok</button>
+                <span id="remove_field" class="glyphicon glyphicon-remove" aria-hidden="true" style="vertical-align: middle"></span>
+            </div>
+
+
+        </div>
+
+        <div class="col-md-8">
+            <!--<ul id="sortable">
+                <li class="ui-state-default">
+                    <div class="m-t-1" id="titolo">
+
+                    </div>
+                </li>
+                <li class="ui-state-default">
+                    <div id="testo">
+                        <h1>Pellentesque ut elementum penis.</h1>
+                    </div>
+                </li>
+                <li class="ui-state-default">
+                    <div id="infografica">
+
+                    </div>
+                </li>
+            </ul>-->
+            <ul id="sortable">
+
+            </ul>
+
+        </div>
+    </div>
+</div>
+
+
+</body>
+
+</html>
